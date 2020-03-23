@@ -14,7 +14,7 @@ font = {'weight' : 'bold'}
 plt.rcParams.update({'font.size': 25})
 
 #Load data, first 3 rows were removed manually
-dataset = 4
+dataset = 6
 data = np.loadtxt('P3data0{nr}.txt'.format(nr = dataset))
 #Set limits for where the peak should be measured. Whole dataset displayed by adjusting limits.
 if dataset == 4:
@@ -78,30 +78,30 @@ flux2 = f(res2.x)
 #Plots the data and the two fits
 plt.figure(figsize=(20,10))
 plt.plot(lam,flux,label='Data')
-plt.plot(lam,flux1,'r-',linewidth=3,label='Gaussian')
-plt.plot(lam,flux2,'k-',linewidth=3,label='Lorentzian')
+#plt.plot(lam,flux1,'r-',linewidth=3,label='Gaussian')
+#plt.plot(lam,flux2,'k-',linewidth=3,label='Lorentzian')
 plt.xlabel('Wavelength [Ångström]')
 plt.ylabel(r'Flux [10$^{-17}$erg/cm$^2$/s/Å]')
 plt.title('Line profile fits to the data')
-plt.legend(fancybox=True)
+#plt.legend(fancybox=True)
 plt.minorticks_on()
 plt.grid() 
 plt.box(True) 
 
 
-#Plots residuals for both profiles
-plt.figure(figsize=(15,9))
-plt.plot(lam,np.zeros(len(lam)),'g--')
-plt.plot(lam,residual1,'r.',label='Gaussian')
-plt.xlabel('Wavelength [Ångström]')
-plt.ylabel('Residuals')
-plt.box(True) 
-plt.plot(lam,residual2,'k.',label='Lorentzian')
-plt.title('Residuals for the Lorentzian and Gaussian fits')
-plt.ylim([-13,13])
-plt.minorticks_on()
-plt.grid() 
-plt.legend(fancybox=True)
+##Plots residuals for both profiles
+#plt.figure(figsize=(15,9))
+#plt.plot(lam,np.zeros(len(lam)),'g--')
+#plt.plot(lam,residual1,'r.',label='Gaussian')
+#plt.xlabel('Wavelength [Ångström]')
+#plt.ylabel('Residuals')
+#plt.box(True) 
+#plt.plot(lam,residual2,'k.',label='Lorentzian')
+#plt.title('Residuals for the Lorentzian and Gaussian fits')
+#plt.ylim([-13,13])
+#plt.minorticks_on()
+#plt.grid() 
+#plt.legend(fancybox=True)
 
 
 #Calcualtes reduced chi-squared to compare the two fits
@@ -117,28 +117,28 @@ def synthchi2(t0,*args):
 #Applying alternate function to get values for z from the synthetic datasets
 zG = []
 zL = []
-for i in range(20):
-    syntG = flux1+sig*np.random.normal(0,1,len(lam))
-    syntL = flux2+sig*np.random.normal(0,1,len(lam)) 
-    func = 'G'
-    tG = minimize(synthchi2,res1.x,args=syntG,tol=1e-10,method='Nelder-Mead').x
-    func = 'L'
-    tL = minimize(synthchi2,res2.x,args=syntL,tol=1e-10,method='Nelder-Mead').x
-    zG.append(z(tG[3]))
-    zL.append(z(tL[3]))    
+##for i in range(200):
+#    syntG = flux1+sig*np.random.normal(0,1,len(lam))
+#    syntL = flux2+sig*np.random.normal(0,1,len(lam)) 
+#    func = 'G'
+#    tG = minimize(synthchi2,res1.x,args=syntG,tol=1e-10,method='Nelder-Mead').x
+#    func = 'L'
+#    tL = minimize(synthchi2,res2.x,args=syntL,tol=1e-10,method='Nelder-Mead').x
+#    zG.append(z(tG[3]))
+#    zL.append(z(tL[3]))    
 
-#Standard deviation in the synthetic z
-stdG = np.std(zG)
-stdL = np.std(zL)
+##Standard deviation in the synthetic z
+#stdG = np.std(zG)
+#stdL = np.std(zL)
 
-#Looking at how the synthetic dataset looks
-plt.figure(figsize=(15,7))
-plt.plot(lam,flux,'k.',label='Real data')
-plt.plot(lam,syntG,'r.',label='Synthetic Gaussian data')
-plt.plot(lam,syntL,'b.',label='Synthetic Lorentzian data')
-plt.legend(fancybox=True)
-plt.xlabel('Wavelength [Ångströms]')
-plt.ylabel(r'Flux [10$^{-17}$erg/cm$^2$/Å]')
-plt.title('Comparison of real and synthetic datasets')
-plt.tight_layout()
+##Looking at how the synthetic dataset looks
+#plt.figure(figsize=(15,7))
+#plt.plot(lam,flux,'k.',label='Real data')
+#plt.plot(lam,syntG,'r.',label='Synthetic Gaussian data')
+#plt.plot(lam,syntL,'b.',label='Synthetic Lorentzian data')
+#plt.legend(fancybox=True)
+#plt.xlabel('Wavelength [Ångströms]')
+#plt.ylabel(r'Flux [10$^{-17}$erg/cm$^2$/Å]')
+#plt.title('Comparison of real and synthetic datasets')
+#plt.tight_layout()
 
